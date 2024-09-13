@@ -78,7 +78,7 @@ return [
             'url' => env('LOG_SLACK_WEBHOOK_URL'),
             'username' => env('LOG_SLACK_USERNAME', 'Laravel Log'),
             'emoji' => env('LOG_SLACK_EMOJI', ':boom:'),
-            'level' => env('LOG_LEVEL', 'critical'),
+            'level' => env('LOG_LEVEL_SLACK', 'critical'),
             'replace_placeholders' => true,
         ],
 
@@ -126,6 +126,26 @@ return [
         'emergency' => [
             'path' => storage_path('logs/laravel.log'),
         ],
+
+        'file' => [
+            'driver' => 'monoLog',
+            'level' => env('LOG_LEVEL', 'debug'),
+            'handler' => StreamHandler::class,
+            'formatter' => env('LOG_STDERR_FORMATTER'),
+            'with' => [
+                'stream' => storage_path('logs/application.log'),
+                ],
+        ],
+
+        'fileJson' => [
+            'driver' => 'monoLog',
+            'level' => env('LOG_LEVEL', 'debug'),
+            'handler' => StreamHandler::class,
+            'formatter' => \Monolog\Formatter\JsonFormatter::class,
+            'with' => [
+                'stream' => storage_path('logs/applicationJson.log'),
+            ],
+        ]
 
     ],
 
